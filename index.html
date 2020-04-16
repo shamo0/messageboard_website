@@ -2,8 +2,10 @@
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <link href="styles.css" type="text/css" rel="stylesheet"/>
+<script> src="script.js" </script>
 </head>
 <body>
+
 
 <div class="topnav">
     <a class="active" href="#home">Home</a>
@@ -15,9 +17,9 @@
 
 <div class="form_div">
     <p class="form_label">LOGIN FORM</p>
-        <form method="post" action="">
-        <p><input type="text" placeholder="Enter Email"></p>
-        <p><input type="password" placeholder="**********"></p>
+        <form name="login" onsubmit="return validateLogin()" method="post">
+        <p><input name="email" type="text" placeholder="Enter Email"></p>
+        <p><input name="password" type="password" placeholder="**********"></p>
         <p><input type="submit" value="LOGIN"></p>
         </form>
 </div>
@@ -26,10 +28,10 @@
 <br>
 <div class="form_div">
     <p class="form_label">SIGNUP FORM</p>
-        <form method="post" action="">
-        <p><input type="text" placeholder="Enter Name"></p>
-        <p><input type="text" placeholder="Enter Email"></p>
-        <p><input type="password" placeholder="**********"></p>
+        <form name ="signup" method="post" action="" onsubmit="return validateSignup()">
+        <p><input name="name" type="text" placeholder="Enter Name"></p>
+        <p><input name="email" type="text" placeholder="Enter Email"></p>
+        <p><input name="password" type="password" placeholder="**********"></p>
         <p><input type="submit" value="SIGNUP"></p>
 </form>
 </div>
