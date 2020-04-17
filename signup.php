@@ -1,20 +1,21 @@
 <?php
 include('dbConnectionInfo.php');
 
-$con=mysql_connect(DB_HOST,DB_USER,DB_PASSWORD) or die("Failed to connect to MySQL: " .     mysql_error());
-$db=mysql_select_db(messageboard,$con) or die("Failed to connect to MySQL: " . mysql_error());
-
-
+$link = mysqli_connect($db_hostname, $db_username, $db_password, $db_database);
+// $db=mysql_select_db(messageboard,$link) or die("Failed to connect to MySQL: " . mysql_error());
 
 $userName = $_POST['username'];
 $password =  $_POST['password'];
-$query = "INSERT INTO users (username,password) VALUES ('$userName','$password')";
-$data = mysql_query ($query)or die(mysql_error());
+
+$query = "INSERT INTO users (username,passwd) VALUES ('$userName','$password')";
+$data = mysqli_query($link,$query);
 if($data)
 {
 echo "YOUR REGISTRATION IS COMPLETED...";
+//header("localhost/Project/index.html"); 
 }
 else
 {
-echo "Unknown Error!"
+echo "Unknown Error!"; 
 }
+?>
