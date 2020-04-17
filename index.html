@@ -1,3 +1,4 @@
+
 <html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -17,23 +18,24 @@
 
 <div class="form_div">
     <p class="form_label">LOGIN FORM</p>
-        <form name="login" onsubmit="return validateLogin()" method="post">
-        <p><input name="email" type="text" placeholder="Enter Email"></p>
+        <form name="login" onsubmit="return validateLogin()" method="post" action="login.php">
+        <p><input name="username" type="text" placeholder="Enter username"></p>
         <p><input name="password" type="password" placeholder="**********"></p>
         <p><input type="submit" value="LOGIN"></p>
         </form>
 </div>
+
+
 <br>
 <br>
 <br>
 <div class="form_div">
     <p class="form_label">SIGNUP FORM</p>
-        <form name ="signup" method="post" action="" onsubmit="return validateSignup()">
-        <p><input name="name" type="text" placeholder="Enter Name"></p>
-        <p><input name="email" type="text" placeholder="Enter Email"></p>
+        <form name ="signup" method="post" action="signup.php" onsubmit="return validateSignup()">
+        <p><input name="username" type="text" placeholder="Enter Name"></p>
         <p><input name="password" type="password" placeholder="**********"></p>
         <p><input type="submit" value="SIGNUP"></p>
-</form>
+        </form>
 </div>
 
 </div>
