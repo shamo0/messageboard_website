@@ -15,8 +15,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 }
 else { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
-  header("Location: http://localhost/index.php");
-  
+  header("Location: http://localhost:8080/Project/index.html");
 }
 ?>
 
@@ -32,77 +31,107 @@ else {
 </head>
 <body>
 
-<?php
-  if (isset($_GET['mess'])) { 
-    $message = $_GET['mess']; 
-    $time = $_GET['timeadded']; 
-    $sql = "INSERT INTO messages (messageVal, timestampVal) VALUES ('$message', '$time')"; 
-    if ($link->query($sql) === TRUE) { 
-      $last_id = $link->insert_id; 
+
+<script>
+function logout() {
+    alert('Logged Out'); 
+    if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+    xmlhttp.open("GET","session_destroyer.php",false);
+    xmlhttp.send();
+
+    document.getElementById("hello").innerHTML=xmlhttp.responseText;
       } 
-    else { 
-      echo "Error: " . $sql . "<br>" . $link->error;
-      } 
-    echo "<h1>Message Receieved!</h1>";     
-  } 
+</script>
+<p id="hello"></p>
+<button onclick="logout()">Log out</button> 
 
-
-?>
-
-<form name="messageboard" method="get" action="messageboard.php">
+<form name="messageboard" method="post" action="newMessage.php">
   <label for="message"> Enter your message: 
-    <input type="text" name="mess" placeholder="Hello There!"> 
+    <input type="text" required name="mess" placeholder="Hello There!"> 
   </label><br>
-  <input type="hidden" name="timeadded" value="<?php echo time(); ?>">
+  <input type="hidden" name="timeadded" value="<?php date_default_timezone_set('UTC'); echo date('l jS \of F Y h:i:s A');?>">
   <input type="submit" value="Send message!"> 
+
 </form> 
 
 <?php
-    $sql = "SELECT User, messageVal, timestampVal FROM messages"; 
+    $sql = "SELECT messages.id, messageId, messageVal, timestampVal, username FROM messages, users WHERE messages.id=users.id"; 
     if($result = mysqli_query($link, $sql)){
 		    if(mysqli_num_rows($result) > 0){
           while($row = mysqli_fetch_array($result)){
             echo "<div class='container'>";
-              echo "<img src='/w3images/bandmember.jpg' alt='Avatar'>";
-              echo "<p class='Price'> $".$row['Price']. ".00</p>";
+              echo "<p>" . $row['username'] . "</p>";
               echo "<p>" . $row['messageVal'] . "</p>";
-              echo "<span class='time-right'>" . $row[timestampVal] . "</span>";
-          }
+              echo "<span class='time-right'>" . $row['timestampVal'] . "</span>";
+              if ($_SESSION['username'] == 'admin') 
+              { 
+                echo "<button oncick = 'removeComment(".$row['messageId'].")'> Edit/Delete Post </button>";
+              }
+              elseif ($_SESSION['username'] == $row['username']) { 
+                echo "<button oncick = 'removeComment(".$row['messageId'].")'> Edit/Delete Post </button>";
+              }
+              echo "</div>";
+            }
           mysqli_free_result($result);
         } else{
 		        echo "No records matching your query were found.";
 		    }
       } else{
   		    echo "ERROR: Unable to execute $sql. " . mysqli_error($link);
-  		}
-  		mysqli_close($link);
-  		?>
+      }
 
-<!--
-<div class="container">
-  <img src="/w3images/bandmember.jpg" alt="Avatar">
-  <p>Hello. How are you today?</p>
-  <span class="time-right">11:00</span>
-</div>
+  //This inserts the new message
+  if (isset($_POST['mess'])) { 
+    $message = $_POST['mess']; 
+    $time = $_POST['timeadded'];
+    $user = $_SESSION['username'];
+    $_POST = array();
+    $query =  "SELECT id FROM users WHERE username = '$user'";
+    $result = mysqli_query($link,$query); 
+    if (mysqli_num_rows($result)){
+      $row = mysqli_fetch_array($result);
+      $id = $row['id'];
+      $sql = "INSERT INTO messages (messageVal, timestampVal, id) VALUES ('$message', '$time','$id')"; 
+    }
+    $link->query($sql); 
+    mysqli_free_result($result);
+  
+    echo "<h1>Message Receieved!</h1>";     
+    echo "<div class='container'>";
+    echo "<h1>" . $user . "</h1>";
+    echo "<p>" . $message . "</p>";
+    echo "<span class='time-right'>" . $time . "</span>";
+    echo "</div>";
 
-<div class="container darker">
-  <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-  <p>Hey! I'm fine. Thanks for asking!</p>
-  <span class="time-left">11:01</span>
-</div>
+  } 
+  mysqli_close($link);
+?>
 
-<div class="container">
-  <img src="/w3images/bandmember.jpg" alt="Avatar">
-  <p>Sweet! So, what do you wanna do today?</p>
-  <span class="time-right">11:02</span>
-</div>
+<?php
+  function removeComment($wantedId){
+      $link = mysqli_connect($db_hostname, $db_username, $db_password, $db_database);
+      if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_error());
+      
+      $user = $_SESSION['username'];
+      $query =  "SELECT messageId FROM messages WHERE username = '$user' AND messageId='$wantedId";
+      $result = mysqli_query($link,$query);
+      if (mysqli_num_rows($result)){
+        $row = mysqli_fetch_array($result);
+        $id = $row['messageId'];
+        $sql = "DELETE FROM messages WHERE messageId='$id' "; 
+      }
 
-<div class="container darker">
-  <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-  <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
-  <span class="time-left">11:05</span>
-</div> 
-    --> 
+  }
 
+
+?>
 </body>
 </html>

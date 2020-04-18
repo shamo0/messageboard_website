@@ -29,10 +29,11 @@ if($count==1){
     session_start();
     $_SESSION['loggedin'] = true;
     $_SESSION['username'] = $username;
-    header("Location: http://localhost/messageboard.php");
+    header("Location: http://localhost:8080/project/messageboard.php");
     
 }
 else {
-    echo "Failure";
+    // echo "Failure";
+    header("Location: http://localhost:8080/project/index.html");
 }
 ?>
