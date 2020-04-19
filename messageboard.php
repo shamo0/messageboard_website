@@ -70,12 +70,19 @@ function logout() {
               { 
                 echo "<a href=\"deleteMessage.php?id=".$row['messageId']. "\" >";
                 echo "DELETE";
-                echo "</a>";
+                echo "</a><br>";
+                
+                echo "<a href=\"editMessage.php?id=".$row['messageId']. "\" >";
+                echo "EDIT";
+                echo "</a><br>";
               }
               elseif ($_SESSION['username'] == $row['username']) { 
                 echo "<a href=\"deleteMessage.php?id=".$row['messageId']. "\" >";
                 echo "DELETE";
                 echo "</a>"; 
+                echo "<a href=\"editMessage.php?id=".$row['messageId']. "\" >";
+                echo "EDIT";
+                echo "</a>";
                   }
               echo "</div>";
             }
