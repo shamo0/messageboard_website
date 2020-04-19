@@ -32,3 +32,6 @@ function validateSignup() {
     return false;
   }
 }
+
+// var mysql = require('mysql');
+

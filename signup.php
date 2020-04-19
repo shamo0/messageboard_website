@@ -10,12 +10,12 @@ $password =  $_POST['password'];
 $query = mysqli_query($link, "SELECT username FROM users WHERE username='".$userName."'");
 if (mysqli_num_rows($query) == 0) {   
 
-    $query = "INSERT INTO users (username,names, passwd) VALUES ('$userName', '$name', '$password')";
+    $query = "INSERT INTO users (username,names, roles,passwd) VALUES ('$userName', '$name', 0, '$password')";
     $data = mysqli_query($link,$query);
     if($data)
     {
         echo "YOUR REGISTRATION IS COMPLETED...";
-        header("Location: http://localhost/Project/index.html");
+        header("Location: http://localhost:8080/Project/index.html");
     }
     else
     {
@@ -23,6 +23,7 @@ if (mysqli_num_rows($query) == 0) {
     }
 } 
 else { 
-    echo "Username Already Exists! Try again."; 
+    echo "<h1>Username Already Exists! Please try again.</h1>";
+    echo "<a href='index.html'>Link back to the signup page</a> " ; 
 }
 ?>

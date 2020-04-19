@@ -30,8 +30,7 @@ else {
 <body>
 
 <script>
-function logout() {
-    alert('Logged Out'); 
+function logout() { 
     if (window.XMLHttpRequest)
         {// code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp=new XMLHttpRequest();
@@ -42,10 +41,10 @@ function logout() {
         }
     xmlhttp.open("GET","session_destroyer.php",false);
     xmlhttp.send();
-    document.getElementById("hello").innerHTML=xmlhttp.responseText;
+    window.location.reload();
+    alert('Logged Out');
       } 
 </script>
-<p id="hello"></p>
 <button onclick="logout()">Log out</button> 
 
 <form name="messageboard" method="post" action="newMessage.php">
@@ -79,7 +78,7 @@ function logout() {
               elseif ($_SESSION['username'] == $row['username']) { 
                 echo "<a href=\"deleteMessage.php?id=".$row['messageId']. "\" >";
                 echo "DELETE";
-                echo "</a>"; 
+                echo "</a> <br>"; 
                 echo "<a href=\"editMessage.php?id=".$row['messageId']. "\" >";
                 echo "EDIT";
                 echo "</a>";
