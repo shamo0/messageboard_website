@@ -3,70 +3,14 @@
   <head>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <link href="styles.css" type="text/css" rel="stylesheet"/>
+  <script src='script.js'></script>
   </head>
   <body>
-  <script>
 
-function validateUser() { 
-var username = document.forms["signup"]["username"].value;
-if (username.length == 0) {   //ensure something is put in
-  // document.write("test")
-  document.getElementById("errorcheck1").innerHTML = "Enter a username!";
-  return false;
-}
-else { 
-  document.getElementById("errorcheck1").innerHTML = "";
-  return true; 
-}
-}
-
-function validateName() { 
-var username = document.forms["signup"]["name"].value;
-if (username.length == 0) {   //ensure something is put in
-  // document.write("test")
-  document.getElementById("errorcheck3").innerHTML = "Enter a username!";
-  return false;
-}
-else { 
-  document.getElementById("errorcheck3").innerHTML = "";
-  return true; 
-}
-}
-
-function validatePassword() { 
-var password = document.forms["signup"]["password"].value;
-if ((password.length > 5) && (/\d/.test(password))) {   //ensures length is at least six and has one digit
-  document.getElementById("errorcheck2").innerHTML = "";
-  return true;
-} 
-else { 
-  document.getElementById("errorcheck2").innerHTML = "Weak Password!";   
-  return false; 
-}
-}
-
-function validateSignup() {
-if (validateUser() && validatePassword() && validateName()) {
-  document.getElementById['signUp'].submit();   //if all functions return true, submit the form
-  return true;
-}
-else {
-  alert("Form needs to be filled out correctly!");    //alerts user of problem, doesn't submit
-  return false;
-}
-}
-</script>
-  
-<!--   
-  <div class="topnav">
-      <a class="active" href="#home">Home</a>
-      <a href="#news">News</a>
-      <a href="#contact">Contact</a>
-  </div>  -->
-  
   <div id="wrapper">
   
   <div class="form_div">
+      <!-- Form for logging in. Uses login php as the action field where users session is created if properly logged in -->
       <p class="form_label">LOGIN FORM</p>
           <form name="login" method="post" action="login.php">
           <p><input name="username" type="text" placeholder="Enter username"> </p>
@@ -75,11 +19,11 @@ else {
           </form>
   </div>
   
-  
   <br>
   <br>
   <br>
   <div class="form_div">
+      <!-- Signup form. uses signup.php as the action field as well as validate signup function in javascript -->
       <p class="form_label">SIGNUP FORM</p>
           <form name ="signup" method="post" action="signup.php" onsubmit="return validateSignup()">
           <p id='errorcheck1'></p>
@@ -92,7 +36,6 @@ else {
           <input type="reset" value="Clear Form">
           </form>
   </div>
-  
   </div>
   </body>
   </html>

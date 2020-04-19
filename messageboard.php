@@ -25,38 +25,23 @@ else {
   <meta name="index" content="The HTML5 Herald">
   <meta name="Geno" content="SitePoint">
   <link rel="stylesheet" href="styles.css">
+  <script src='script.js'></script>
 
 </head>
 <body>
-
-<script>
-function logout() { 
-    if (window.XMLHttpRequest)
-        {// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-    }
-    else
-        {// code for IE6, IE5
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-    xmlhttp.open("GET","session_destroyer.php",false);
-    xmlhttp.send();
-    window.location.reload();
-    alert('Logged Out');
-      } 
-</script>
+<!-- logout button, uses javascript and php to kill the session -->
 <button onclick="logout()">Log out</button> 
-
+<!-- Form for inputing a new message -->
 <form name="messageboard" method="post" action="newMessage.php">
   <label for="message"> Enter your message: 
   <input type="text" required name="mess" placeholder="Hello There!"> 
   </label><br>
   <input type="hidden" name="timeadded" value="<?php date_default_timezone_set('UTC'); echo date('l jS \of F Y h:i:s A');?>">
   <input type="submit" value="Send message!"> 
-
 </form> 
 
 <?php
+    //SQL query to get the values from the database
     $sql = "SELECT messages.id, messageId, messageVal, timestampVal, username FROM messages, users WHERE messages.id=users.id"; 
     if($result = mysqli_query($link, $sql)){
 		    if(mysqli_num_rows($result) > 0){
@@ -64,7 +49,7 @@ function logout() {
             echo "<div class='container' id='id".$row['messageId']."'>";
             echo $row['username'].' ------ '.$row['timestampVal'].'<br/>';
             echo $row['messageVal'] . "<br />";
-
+            //Check if admin
             if ($_SESSION['username'] == 'admin') 
               { 
                 echo "<a href=\"deleteMessage.php?id=".$row['messageId']. "\" >";
@@ -75,6 +60,7 @@ function logout() {
                 echo "EDIT";
                 echo "</a><br>";
               }
+              //Check if regular user
               elseif ($_SESSION['username'] == $row['username']) { 
                 echo "<a href=\"deleteMessage.php?id=".$row['messageId']. "\" >";
                 echo "DELETE";
@@ -119,15 +105,6 @@ function logout() {
   } 
   mysqli_close($link);
 ?>
-
-<!-- <script>
-  //This removes the html of the deleted comment
-  function removeComment(wantedId){
-    name = "id"+wantedId;
-    var elem = document.getElementById(name);
-    elem.parentNode.removeChild(elem);}
-
-</script> -->
 
 </body>
 </html>

@@ -1,29 +1,44 @@
-function validateUser() { 
+  //Validates username whn signing up
+function validateUser() {
   var username = document.forms["signup"]["username"].value;
   if (username.length == 0) {   //ensure something is put in
-    document.write("test")
-    // document.getElementById("errCheck0").innerHTML = "Enter a username!";
+    // document.write("test")
+    document.getElementById("errorcheck1").innerHTML = "Enter a username!";
     return false;
   }
-  else { 
-    return true; 
+  else {
+    document.getElementById("errorcheck1").innerHTML = "";
+    return true;
   }
-}
-
-function validatePassword() { 
+  }
+  //Validates name whn signing up
+  function validateName() {
+  var username = document.forms["signup"]["name"].value;
+  if (username.length == 0) {   //ensure something is put in
+    // document.write("test")
+    document.getElementById("errorcheck3").innerHTML = "Enter a Name!";
+    return false;
+  }
+  else {
+    document.getElementById("errorcheck3").innerHTML = "";
+    return true;
+  }
+  }
+  //Validates user password when signing up
+  function validatePassword() {
   var password = document.forms["signup"]["password"].value;
   if ((password.length > 5) && (/\d/.test(password))) {   //ensures length is at least six and has one digit
-    // document.getElementById("errCheck1").innerHTML = "";
-    document.write("test");
+    document.getElementById("errorcheck2").innerHTML = "";
     return true;
-  } 
-  else { 
-    return false; 
   }
-}
-
-function validateSignup() {
-  if (validateUser() && validatePswd()) {
+  else {
+    document.getElementById("errorcheck2").innerHTML = "Weak Password!";
+    return false;
+  }
+  }
+  //Checks if all the other functions validated before letting user signup
+  function validateSignup() {
+  if (validateUser() && validatePassword() && validateName()) {
     document.getElementById['signUp'].submit();   //if all functions return true, submit the form
     return true;
   }
@@ -31,7 +46,20 @@ function validateSignup() {
     alert("Form needs to be filled out correctly!");    //alerts user of problem, doesn't submit
     return false;
   }
-}
-
-// var mysql = require('mysql');
-
+  }
+  //Logout function
+  function logout() {
+      if (window.XMLHttpRequest)
+          {// code for IE7+, Firefox, Chrome, Opera, Safari
+          xmlhttp=new XMLHttpRequest();
+      }
+      else
+          {// code for IE6, IE5
+              xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+          }
+      xmlhttp.open("GET","session_destroyer.php",false);
+      xmlhttp.send();
+      window.location.reload();
+      alert('Logged Out');
+        }
+  
