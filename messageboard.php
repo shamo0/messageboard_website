@@ -68,26 +68,14 @@ function logout() {
 
             if ($_SESSION['username'] == 'admin') 
               { 
-                // echo "<form id='formID' method='post' name='form' action='deleteMessage.php'>";
-                //     echo "<input type='submit' value='delete' onclick = 'removeComment(".$row['messageId'].");' name='button".$row['messageId']."'></input>";
-                //     echo "</form>";
-                //     if(isset($_POST['button'.$row['messageId']])) {
-                //         echo "here";
-                //         $user = $_SESSION['username'];
-                //         $query =  "SELECT messageId FROM messages WHERE messageId=\'id" . $row['messageId'] . "'";
-
-                //         $result = mysqli_query($link,$query);
-                //         if (mysqli_num_rows($result)){
-                //           $row = mysqli_fetch_array($result);
-                //           // echo $row;
-                //           $id = $row['messageId'];
-                //           $sql = "DELETE FROM messages WHERE messageId='$id' ";
-                //         }
-                //       } 
-                  echo "<button onclick = 'removeComment(".$row['messageId'].");'> Edit/Delete Post </button>";
+                echo "<a href=\"deleteMessage.php?id=".$row['messageId']. "\" >";
+                echo "DELETE";
+                echo "</a>";
               }
               elseif ($_SESSION['username'] == $row['username']) { 
-                  echo "<button onclick = 'removeComment(".$row['messageId'].");'> Edit/Delete Post </button>";           
+                echo "<a href=\"deleteMessage.php?id=".$row['messageId']. "\" >";
+                echo "DELETE";
+                echo "</a>"; 
                   }
               echo "</div>";
             }
@@ -126,14 +114,14 @@ function logout() {
   mysqli_close($link);
 ?>
 
-<script>
+<!-- <script>
   //This removes the html of the deleted comment
   function removeComment(wantedId){
     name = "id"+wantedId;
     var elem = document.getElementById(name);
     elem.parentNode.removeChild(elem);}
 
-</script>
+</script> -->
 
 </body>
 </html>
