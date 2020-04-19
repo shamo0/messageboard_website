@@ -11,7 +11,7 @@ if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_
 
 session_start(); 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) { 
-  echo "<h1> Welcome to the member's only messageboard, " . $_SESSION['username'] . "<br>Feel free to enter a message or edit an old one! </h1>"; 
+  echo "<h1> Welcome to the member's only messageboard, " . $_SESSION['username'] . "!<br>Feel free to enter a message or edit an old one! </h1>"; 
 }
 else { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
@@ -21,16 +21,13 @@ else {
 
 <head>
   <meta charset="utf-8">
-
   <title>messageBoard</title>
   <meta name="index" content="The HTML5 Herald">
   <meta name="Geno" content="SitePoint">
-
   <link rel="stylesheet" href="styles.css">
 
 </head>
 <body>
-
 
 <script>
 function logout() {
@@ -43,10 +40,8 @@ function logout() {
         {// code for IE6, IE5
             xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
         }
-
     xmlhttp.open("GET","session_destroyer.php",false);
     xmlhttp.send();
-
     document.getElementById("hello").innerHTML=xmlhttp.responseText;
       } 
 </script>
@@ -55,7 +50,7 @@ function logout() {
 
 <form name="messageboard" method="post" action="newMessage.php">
   <label for="message"> Enter your message: 
-    <input type="text" required name="mess" placeholder="Hello There!"> 
+  <input type="text" required name="mess" placeholder="Hello There!"> 
   </label><br>
   <input type="hidden" name="timeadded" value="<?php date_default_timezone_set('UTC'); echo date('l jS \of F Y h:i:s A');?>">
   <input type="submit" value="Send message!"> 
@@ -67,17 +62,33 @@ function logout() {
     if($result = mysqli_query($link, $sql)){
 		    if(mysqli_num_rows($result) > 0){
           while($row = mysqli_fetch_array($result)){
-            echo "<div class='container'>";
-              echo "<p>" . $row['username'] . "</p>";
-              echo "<p>" . $row['messageVal'] . "</p>";
-              echo "<span class='time-right'>" . $row['timestampVal'] . "</span>";
-              if ($_SESSION['username'] == 'admin') 
+            echo "<div class='container' id='id".$row['messageId']."'>";
+            echo $row['username'].' ------ '.$row['timestampVal'].'<br/>';
+            echo $row['messageVal'] . "<br />";
+
+            if ($_SESSION['username'] == 'admin') 
               { 
-                echo "<button oncick = 'removeComment(".$row['messageId'].")'> Edit/Delete Post </button>";
+                // echo "<form id='formID' method='post' name='form' action='deleteMessage.php'>";
+                //     echo "<input type='submit' value='delete' onclick = 'removeComment(".$row['messageId'].");' name='button".$row['messageId']."'></input>";
+                //     echo "</form>";
+                //     if(isset($_POST['button'.$row['messageId']])) {
+                //         echo "here";
+                //         $user = $_SESSION['username'];
+                //         $query =  "SELECT messageId FROM messages WHERE messageId=\'id" . $row['messageId'] . "'";
+
+                //         $result = mysqli_query($link,$query);
+                //         if (mysqli_num_rows($result)){
+                //           $row = mysqli_fetch_array($result);
+                //           // echo $row;
+                //           $id = $row['messageId'];
+                //           $sql = "DELETE FROM messages WHERE messageId='$id' ";
+                //         }
+                //       } 
+                  echo "<button onclick = 'removeComment(".$row['messageId'].");'> Edit/Delete Post </button>";
               }
               elseif ($_SESSION['username'] == $row['username']) { 
-                echo "<button oncick = 'removeComment(".$row['messageId'].")'> Edit/Delete Post </button>";
-              }
+                  echo "<button onclick = 'removeComment(".$row['messageId'].");'> Edit/Delete Post </button>";           
+                  }
               echo "</div>";
             }
           mysqli_free_result($result);
@@ -115,23 +126,14 @@ function logout() {
   mysqli_close($link);
 ?>
 
-<?php
-  function removeComment($wantedId){
-      $link = mysqli_connect($db_hostname, $db_username, $db_password, $db_database);
-      if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_error());
-      
-      $user = $_SESSION['username'];
-      $query =  "SELECT messageId FROM messages WHERE username = '$user' AND messageId='$wantedId";
-      $result = mysqli_query($link,$query);
-      if (mysqli_num_rows($result)){
-        $row = mysqli_fetch_array($result);
-        $id = $row['messageId'];
-        $sql = "DELETE FROM messages WHERE messageId='$id' "; 
-      }
+<script>
+  //This removes the html of the deleted comment
+  function removeComment(wantedId){
+    name = "id"+wantedId;
+    var elem = document.getElementById(name);
+    elem.parentNode.removeChild(elem);}
 
-  }
+</script>
 
-
-?>
 </body>
 </html>
