@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS messageboard;
+CREATE DATABASE messageboard;
+
+USE messageboard;
+
+/*Table structure for table `users` */
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS users;
 
@@ -27,5 +33,3 @@ INSERT INTO users(id,username,names,roles,passwd) VALUE (4,'user1','John',0,'pri
 
 INSERT INTO messages(messageVal,timestampVal,id) VALUE ("test message",'March 10, 2001, 5:16 pm',3);
 INSERT INTO messages(messageVal,timestampVal,id) VALUE ("new test message",'March 10, 2001, 5:20 pm',2);
-
-

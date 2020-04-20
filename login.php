@@ -27,7 +27,9 @@ if($count==1){
     
 }
 else {
-    header("Location: http://localhost:8080/project/index.html");
-    echo "<script>window.location.reload(); alert('You have entered an invalid username or password. Try again!')</script>"; 
+    echo "<script>alert('You have entered an invalid username or password. Try again!'); </script>";
+    echo "<script>setTimeout(\"location.href = 'http://localhost:8080/project/index.html';\",1000);</script>";
+    // header("Location: http://localhost:8080/project/index.html");
+    // echo "<script>window.location.reload(); alert('You have entered an invalid username or password. Try again!')</script>"; 
 }
 ?>

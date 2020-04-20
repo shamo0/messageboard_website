@@ -15,7 +15,6 @@ function validateUser() {
   function validateName() {
   var username = document.forms["signup"]["name"].value;
   if (username.length == 0) {   //ensure something is put in
-    // document.write("test")
     document.getElementById("errorcheck3").innerHTML = "Enter a Name!";
     return false;
   }
@@ -40,6 +39,7 @@ function validateUser() {
   function validateSignup() {
   if (validateUser() && validatePassword() && validateName()) {
     document.getElementById['signUp'].submit();   //if all functions return true, submit the form
+    alert("Account successfully created!"); 
     return true;
   }
   else {

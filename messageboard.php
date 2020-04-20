@@ -11,12 +11,13 @@ if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_
 
 session_start(); 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) { 
-  echo "<h1> Welcome to the member's only messageboard, " . $_SESSION['username'] . "!<br>Feel free to enter a message or edit an old one! </h1>"; 
+  echo "<div class= 'welcome'> <h1> Welcome to the member's only messageboard, " . $_SESSION['username'] . "! </h1></div>"; 
 }
 else { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
   header("Location: http://localhost:8080/Project/index.html");
 }
+
 ?>
 
 <head>
@@ -24,21 +25,44 @@ else {
   <title>messageBoard</title>
   <meta name="index" content="The HTML5 Herald">
   <meta name="Geno" content="SitePoint">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styless.css">
+
   <script src='script.js'></script>
+
 
 </head>
 <body>
-<!-- logout button, uses javascript and php to kill the session -->
-<button onclick="logout()">Log out</button> 
-<!-- Form for inputing a new message -->
+   <div class = nav_back>
+      <topnav>
+            <ul>
+              <li><a class="active" href="messageboard.php">Chat</a></li>
+              
+              <li><a href="mailto: m216060@usna.edu?subject= help needed">Contact</a></li>
+              <li><a onclick="logout()" >Log out</a></li>
+            </ul>
+
+        </topnav>
+    </div>
+
+<div class = "welcome2">
+  <h3> Feel free to add a new or edit your old messages. </h3>
+</div>
+
+
+<div class="forms_div20">
+  <h3> Enter your message: </h3>
 <form name="messageboard" method="post" action="newMessage.php">
-  <label for="message"> Enter your message: 
-  <input type="text" required name="mess" placeholder="Hello There!"> 
-  </label><br>
+  
+    <label for="message">
+      <div class= "inputText">
+    <input type="text" required name="mess" placeholder="Hello There!"> 
+     </div>
+    </label>
+ 
   <input type="hidden" name="timeadded" value="<?php date_default_timezone_set('UTC'); echo date('l jS \of F Y h:i:s A');?>">
-  <input type="submit" value="Send message!"> 
+  <input class= "button" type="submit" value="Send message!"> 
 </form> 
+</div>
 
 <?php
     //SQL query to get the values from the database
@@ -46,30 +70,53 @@ else {
     if($result = mysqli_query($link, $sql)){
 		    if(mysqli_num_rows($result) > 0){
           while($row = mysqli_fetch_array($result)){
-            echo "<div class='container' id='id".$row['messageId']."'>";
-            echo $row['username'].' ------ '.$row['timestampVal'].'<br/>';
+            echo "<div class='container12' id='id".$row['messageId']."'>";
+            echo "<div class= 'forms_div4'>";
+            echo "<div class= 'forms_div4-img'>";
+            echo "<img class = 'image' src= 'icon.png'>";
+            echo "</div>";
+            echo "<div class='userDiv'>";
+            echo $row['username'];
+            echo "</div>";
+            echo "<br>";
+            echo "<br>";
+            echo "<div class='msgDiv'>";
             echo $row['messageVal'] . "<br />";
+            echo "</div>";
+            echo "<span class='time-right'>" . $row['timestampVal'] . "</span>";
+
+
+
+
             //Check if admin
             if ($_SESSION['username'] == 'admin') 
               { 
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
                 echo "<a href=\"deleteMessage.php?id=".$row['messageId']. "\" >";
-                echo "DELETE";
+                echo "<button class= 'button1'>  DELETE </button>";
                 echo "</a><br>";
                 
                 echo "<a href=\"editMessage.php?id=".$row['messageId']. "\" >";
-                echo "EDIT";
+                echo "<button class= 'button1'> EDIT </button>";
                 echo "</a><br>";
               }
               //Check if regular user
               elseif ($_SESSION['username'] == $row['username']) { 
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
                 echo "<a href=\"deleteMessage.php?id=".$row['messageId']. "\" >";
-                echo "DELETE";
+                echo "<button class= 'button1'> DELETE </button>";
                 echo "</a> <br>"; 
                 echo "<a href=\"editMessage.php?id=".$row['messageId']. "\" >";
-                echo "EDIT";
+                echo "<button class= 'button1'> EDIT </button>";
                 echo "</a>";
                   }
-              echo "</div>";
+                echo "</div>";
+                echo "</div>";
+                echo "</div>";
             }
           mysqli_free_result($result);
         } else{
@@ -94,14 +141,13 @@ else {
     }
     $link->query($sql); 
     mysqli_free_result($result);
-  
+    
     echo "<h1>Message Receieved!</h1>";     
-    echo "<div class='container'>";
+    echo "<div class='container12'>";
     echo "<h1>" . $user . "</h1>";
     echo "<p>" . $message . "</p>";
     echo "<span class='time-right'>" . $time . "</span>";
     echo "</div>";
-
   } 
   mysqli_close($link);
 ?>

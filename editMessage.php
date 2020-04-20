@@ -10,11 +10,7 @@ $link = mysqli_connect($db_hostname, $db_username, $db_password, $db_database);
 if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_error());
 
 session_start(); 
-//Check if logged in. If not logged in redirect to login page (index.html)
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) { 
-  echo "<h1> Welcome to the member's only messageboard, " . $_SESSION['username'] . "<br>Feel free to enter a message or edit an old one! </h1>"; 
-}
-else { 
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] != true) { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
   sleep(.5);
   header("Location: http://localhost:8080/Project/index.html");
@@ -25,16 +21,36 @@ else {
   <title>messageBoard</title>
   <meta name="index" content="The HTML5 Herald">
   <meta name="Geno" content="SitePoint">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styless.css">
 </head>
 <body>
+
+</head>
+<body>
+   <div class = nav_back>
+      <topnav>
+            <ul>
+              <li><a href="messageboard.php">Return to Chat</a></li>
+              <li><a class="active" href="messageboard.php">Edits</a></li>
+              <li><a href="mailto: m216060@usna.edu?subject= help needed">Contact</a></li>
+              <li><a onclick="logout()" >Log out</a></li>
+            </ul>
+        </topnav>
+    </div>
+
 <!-- Form for inputing a new message -->
-<form name="messageboard" method="post">
-  <label for="message"> Enter your NEW message: 
-  <input type="text" required name="newMess" placeholder="Hello There!"> 
-  </label><br>
+  <div class="forms_div20">
+    <h3> Enter your NEW message: </h3>
+  <form name="messageboard" method="post">
+      <label for="message">
+        <div class= "inputText">
+      <input type="text" required name="newMess" placeholder="Hello There!"> 
+      </div>
+    </label>
   <input type="hidden" name="timeadded" value="<?php date_default_timezone_set('UTC'); echo date('l jS \of F Y h:i:s A');?>">
-  <input type="submit" value="Send message!"> 
+  <input class= "button" type="submit" value="Send message!"> 
+</form> 
+
 <?php
 
 if (isset($_GET['id']) && isset($_POST['newMess'])) { 
@@ -43,8 +59,8 @@ if (isset($_GET['id']) && isset($_POST['newMess'])) {
     $query =  "UPDATE messages SET messageVal='$newMess' WHERE messageId='$id'";
     $result = mysqli_query($link,$query); 
     //Output the appropriate message
-    echo "<h1>Message Updated!</h1><br>";     
-    echo "<a href='messageboard.php'>Link back to message board </a> " ; 
+    echo "<h2>Message Updated!</h2><br>";   
+    echo "<br> <br> <br> ";  
   } 
   //Close the connection
   mysqli_close($link);

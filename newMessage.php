@@ -10,10 +10,7 @@ if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_
 
 
 session_start(); 
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) { 
-  echo "<h1> Welcome to the member's only messageboard, " . $_SESSION['username'] . "<br>Feel free to enter a message or edit an old one! </h1>"; 
-}
-else { 
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] != true) { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
   sleep(.5);
   header("Location: http://localhost:8080/Project/index.html");
@@ -26,12 +23,27 @@ else {
   <meta name="index" content="The HTML5 Herald">
   <meta name="Geno" content="SitePoint">
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styless.css">
 
 
 </head>
 
 <body>
+
+   <div class = nav_back>
+      <topnav>
+          <!-- <div class="menulist"> -->
+            <ul>
+              <li><a  href="messageboard.php">Chat</a></li>
+              <li><a class="active" href="newMessage.php">Confirmation Page</a></li>
+              
+              <li><a href="mailto: m216060@usna.edu?subject= help needed">Contact</a></li>
+              <li><a onclick="logout()" >Log out</a></li>
+            </ul>
+          <!-- </div>      -->
+        </topnav>
+    </div>
+
 <?php
 if (isset($_POST['mess'])) { 
     $message = $_POST['mess']; 
@@ -48,13 +60,23 @@ if (isset($_POST['mess'])) {
     $link->query($sql); 
     mysqli_free_result($result);
   
-    echo "<h1>Message Receieved!</h1>";     
-    echo "<div class='container'>";
-    echo "<h1>" . $user . "</h1>";
-    echo "<p>" . $message . "</p>";
-    echo "<span class='time-right'>" . $time . "</span>";
-    echo "</div>";
-    echo "<a href='messageboard.php'>Link back to message board </a> " ; 
+    echo "<div class= 'welcome2'><h1>Message Receieved!</h1></div>";     
+
+    echo "<div class='container12' id='id".$message."'>";
+            echo "<div class= 'forms_div4'>";
+            echo "<div class= 'forms_div4-img'>";
+            echo "<img class = 'image' src= 'icon.png'>";
+            echo "</div>";
+            echo "<div class='userDiv'>";
+            echo $user;
+            echo "</div>";
+            echo "<br>";
+            echo "<br>";
+            echo "<div class='msgDiv'>";
+            echo $message . "<br />";
+            echo "</div>";
+            echo "<span class='time-right'>" . $time. "</span>";
+    echo "<div class = 'link2'><a href='messageboard.php'>Link back to message board </a></div> " ; 
 
   } 
   mysqli_close($link);

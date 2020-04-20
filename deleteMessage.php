@@ -10,10 +10,7 @@ if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_
 
 //Check if already in session
 session_start(); 
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) { 
-  echo "<h1> Welcome to the member's only messageboard, " . $_SESSION['username'] . "<br>Feel free to enter a message or edit an old one! </h1>"; 
-}
-else { 
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] != true) { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
   sleep(.5);
   header("Location: http://localhost:8080/Project/index.html");
@@ -24,7 +21,7 @@ else {
   <title>messageBoard</title>
   <meta name="index" content="The HTML5 Herald">
   <meta name="Geno" content="SitePoint">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styless.css">
 </head>
 
 <body>

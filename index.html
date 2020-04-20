@@ -1,41 +1,71 @@
-
 <html>
-  <head>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <link href="styles.css" type="text/css" rel="stylesheet"/>
-  <script src='script.js'></script>
-  </head>
-  <body>
-
-  <div id="wrapper">
+<head>
+<meta charset = "utf-8">
+<link href="styless.css" type="text/css" rel="stylesheet"/>
+<script src='script.js'></script>
+</head>
+<body>
+      <div class = 'nav_back'>
+        <topnav>
+              <ul>
+                <li><a class="active" href="index.html">Home</a></li>
+                <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Contact</a></li>
+              </ul>
+          </topnav>
+      </div>
   
-  <div class="form_div">
-      <!-- Form for logging in. Uses login php as the action field where users session is created if properly logged in -->
-      <p class="form_label">LOGIN FORM</p>
-          <form name="login" method="post" action="login.php">
-          <p><input name="username" type="text" placeholder="Enter username"> </p>
-          <p><input name="password" type="password" placeholder="**********"></p>
-          <p><input type="submit" value="LOGIN"></p>
-          </form>
-  </div>
+            
+    <div class="forms_div">
+      <h1>Welcome Back</h1>
+      <form name="login" method="post" action="login.php">
   
-  <br>
-  <br>
-  <br>
-  <div class="form_div">
-      <!-- Signup form. uses signup.php as the action field as well as validate signup function in javascript -->
-      <p class="form_label">SIGNUP FORM</p>
-          <form name ="signup" method="post" action="signup.php" onsubmit="return validateSignup()">
-          <p id='errorcheck1'></p>
-          <p><input onblur="validateUser()" name="username" type="text" placeholder="Enter Username"></p>
-          <p id="errorcheck3"></p>
-          <p><input onblur="validateName()" name="name" type="text" placeholder="Enter Name"></p>
-          <p id='errorcheck2'></p>
-          <p><input onblur="validatePassword()" name="password" type="password" placeholder="**********"></p>
-          <p><input type="submit" value="SIGNUP" name="signUp"></p>
-          <input type="reset" value="Clear Form">
-          </form>
-  </div>
-  </div>
-  </body>
-  </html>
+  
+      <div class= "inputText">
+        <i class="fa fa-user"></i>
+        <input type="text" placeholder="Enter your username"
+         name= "username">
+      </div>
+  
+  
+      <div class= "inputText">
+        <i class="fa fa-lock"></i>
+        <input type="password" placeholder="Enter your password" name= "password">
+      </div>
+  
+      <input class= "button" type= "submit" value="Log In">
+      <input class= "button" type= "reset" value="Clear">
+        </form>
+      </div>
+  
+  
+  
+    <div class="forms_div2">
+      <h1>Create an account</h1>
+      <form name ="signup" method="post" action="signup.php" onsubmit="return validateSignup()">
+        <p id='errorcheck1'></p>
+  
+      <div class= "inputText">
+        <input onblur="validateUser()" name="username" type="text" placeholder="Enter Username">
+            
+      </div>
+  
+  
+      <div class= "inputText">
+        <p id="errorcheck3"></p>
+        <input onblur="validateName()" name="name" type="text" placeholder="Enter Name">
+            
+      </div>
+      <div class= "inputText">
+        <p id='errorcheck2'></p>
+        <input onblur="validatePassword()" name="password" type="password" placeholder="Choose a password">
+      </div>
+  
+      <input class= "button" type="submit" value="Sign Up" name="signUp">
+      <input class= "button" type= "reset" value="Clear Form">
+        </form>
+      </div>
+  
+  
+      </body>
+    </html>
+  
