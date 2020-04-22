@@ -1,6 +1,7 @@
   //Validates username whn signing up
 function validateUser() {
   var username = document.forms["signup"]["username"].value;
+  username = escape(username);//Escaping chars
   if (username.length == 0) {   //ensure something is put in
     // document.write("test")
     document.getElementById("errorcheck1").innerHTML = "Enter a username!";
@@ -11,9 +12,11 @@ function validateUser() {
     return true;
   }
   }
+
   //Validates name whn signing up
   function validateName() {
   var username = document.forms["signup"]["name"].value;
+  username = escape(username); //Escaping special chars
   if (username.length == 0) {   //ensure something is put in
     document.getElementById("errorcheck3").innerHTML = "Enter a Name!";
     return false;
@@ -26,15 +29,23 @@ function validateUser() {
   //Validates user password when signing up
   function validatePassword() {
   var password = document.forms["signup"]["password"].value;
-  if ((password.length > 5) && (/\d/.test(password))) {   //ensures length is at least six and has one digit
+  password = escape(password); //escaping the characters
+  if ((password.length > 5) && (/\d/.test(password) && (password.length < 20))) {   //ensures length is at least six and has one digit
     document.getElementById("errorcheck2").innerHTML = "";
     return true;
   }
   else {
     document.getElementById("errorcheck2").innerHTML = "Weak Password!";
     return false;
+    }
   }
+  
+  function messageEscape() {
+      string = document.forms["messageboard"]["mess"].value;
+      escaped = escape(string);
+      return;
   }
+
   //Checks if all the other functions validated before letting user signup
   function validateSignup() {
   if (validateUser() && validatePassword() && validateName()) {

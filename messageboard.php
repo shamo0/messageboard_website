@@ -15,7 +15,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 }
 else { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
-  header("Location: http://localhost:8080/Project/index.html");
+  header("Location: http://localhost:8080/part2/index.html");
 }
 
 ?>
@@ -51,11 +51,10 @@ else {
 
 <div class="forms_div20">
   <h3> Enter your message: </h3>
-<form name="messageboard" method="post" action="newMessage.php">
-  
+<form name="messageboard" method="post" action="newMessage.php" onsubmit="messageEscape()">
     <label for="message">
       <div class= "inputText">
-    <input type="text" required name="mess" placeholder="Hello There!"> 
+    <input type="text" required name="mess" placeholder="Hello There!" maxlength="60"> 
      </div>
     </label>
  
@@ -65,6 +64,29 @@ else {
 </div>
 
 <?php
+     if (isset($_POST['mess'])) { 
+      $message = $_POST['mess']; 
+      $time = $_POST['timeadded'];
+      $user = $_SESSION['username'];
+      $_POST = array();
+      $query =  "SELECT id FROM users WHERE username = '$user'";
+      $result = mysqli_query($link,$query); 
+      if (mysqli_num_rows($result)){
+        $row = mysqli_fetch_array($result);
+        $id = $row['id'];
+        $sql = "INSERT INTO messages (messageVal, timestampVal, id) VALUES ('$message', '$time','$id')"; 
+      }
+      $link->query($sql); 
+      mysqli_free_result($result);
+      
+      echo "<h1>Message Receieved!</h1>";     
+      echo "<div class='container12'>";
+      echo "<h1>" . $user . "</h1>";
+      echo "<p>" . $message . "</p>";
+      echo "<span class='time-right'>" . $time . "</span>";
+      echo "</div>";
+    }
+    
     //SQL query to get the values from the database
     $sql = "SELECT messages.id, messageId, messageVal, timestampVal, username FROM messages, users WHERE messages.id=users.id"; 
     if($result = mysqli_query($link, $sql)){
@@ -84,9 +106,6 @@ else {
             echo $row['messageVal'] . "<br />";
             echo "</div>";
             echo "<span class='time-right'>" . $row['timestampVal'] . "</span>";
-
-
-
 
             //Check if admin
             if ($_SESSION['username'] == 'admin') 
@@ -127,28 +146,7 @@ else {
       }
 
   //This inserts the new message
-  if (isset($_POST['mess'])) { 
-    $message = $_POST['mess']; 
-    $time = $_POST['timeadded'];
-    $user = $_SESSION['username'];
-    $_POST = array();
-    $query =  "SELECT id FROM users WHERE username = '$user'";
-    $result = mysqli_query($link,$query); 
-    if (mysqli_num_rows($result)){
-      $row = mysqli_fetch_array($result);
-      $id = $row['id'];
-      $sql = "INSERT INTO messages (messageVal, timestampVal, id) VALUES ('$message', '$time','$id')"; 
-    }
-    $link->query($sql); 
-    mysqli_free_result($result);
-    
-    echo "<h1>Message Receieved!</h1>";     
-    echo "<div class='container12'>";
-    echo "<h1>" . $user . "</h1>";
-    echo "<p>" . $message . "</p>";
-    echo "<span class='time-right'>" . $time . "</span>";
-    echo "</div>";
-  } 
+  
   mysqli_close($link);
 ?>
 

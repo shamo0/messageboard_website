@@ -1,5 +1,7 @@
 <html>
 <head>
+<!-- X-XSS-Protection: 1; mode=block -->
+
 <meta charset = "utf-8">
 <link href="styless.css" type="text/css" rel="stylesheet"/>
 <script src='script.js'></script>
@@ -45,19 +47,17 @@
         <p id='errorcheck1'></p>
   
       <div class= "inputText">
-        <input onblur="validateUser()" name="username" type="text" placeholder="Enter Username">
-            
+        <input onchange="validateUser()" name="username" type="text" placeholder="Enter Username">       
       </div>
-  
   
       <div class= "inputText">
         <p id="errorcheck3"></p>
-        <input onblur="validateName()" name="name" type="text" placeholder="Enter Name">
+        <input onchange="validateName()" name="name" type="text" placeholder="Enter Name">
             
       </div>
       <div class= "inputText">
         <p id='errorcheck2'></p>
-        <input onblur="validatePassword()" name="password" type="password" placeholder="Choose a password">
+        <input onchange="validatePassword()" name="password" type="password" placeholder="Choose a password">
       </div>
   
       <input class= "button" type="submit" value="Sign Up" name="signUp">

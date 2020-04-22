@@ -13,7 +13,7 @@ session_start();
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] != true) { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
   sleep(.5);
-  header("Location: http://localhost:8080/Project/index.html");
+  header("Location: http://localhost:8080/part2/index.html");
 }
 ?>
 <head>
@@ -41,10 +41,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] != true) {
 <!-- Form for inputing a new message -->
   <div class="forms_div20">
     <h3> Enter your NEW message: </h3>
-  <form name="messageboard" method="post">
+  <form name="messageboard" method="post" onsubmit="messageEscape()">
       <label for="message">
         <div class= "inputText">
-      <input type="text" required name="newMess" placeholder="Hello There!"> 
+      <input type="text" required name="mess" placeholder="Hello There!" maxlength="60"> 
       </div>
     </label>
   <input type="hidden" name="timeadded" value="<?php date_default_timezone_set('UTC'); echo date('l jS \of F Y h:i:s A');?>">
@@ -53,9 +53,9 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] != true) {
 
 <?php
 
-if (isset($_GET['id']) && isset($_POST['newMess'])) { 
+if (isset($_GET['id']) && isset($_POST['mess'])) { 
     $id = $_GET['id']; 
-    $newMess = $_POST['newMess'];
+    $newMess = $_POST['mess'];
     $query =  "UPDATE messages SET messageVal='$newMess' WHERE messageId='$id'";
     $result = mysqli_query($link,$query); 
     //Output the appropriate message

@@ -15,7 +15,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 }
 else { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
-  header("Location: http://localhost:8080/Project/index.html");
+  header("Location: http://localhost:8080/part2/index.html");
 }
 ?>
 
