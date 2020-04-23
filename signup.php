@@ -12,9 +12,14 @@ $hashed_password = sha1($password);
 // mysqli_query($link, "PREPARE chklgn FROM 'SELECT username FROM users WHERE username=?");
 // EXECUTE chklgn USING @l, @p;
 // $query = mysqli_query($link, $userGet);
-
-$query = mysqli_query($link, "SELECT username FROM users WHERE username='".$userName."'");
-if (mysqli_num_rows($query) == 0) {   
+$sql=$link->prepare("SELECT username FROM users WHERE username=?");
+$sql ->bind_param("s", $username);
+$sql ->execute();
+$result = $sql->get_result();
+//commented out
+// $query = mysqli_query($link, "SELECT username FROM users WHERE username='".$userName."'");
+// if (mysqli_num_rows($query) == 0) {
+if ($result->num_rows == 0) {
     $query = "INSERT INTO users (username,names, roles,passwd) VALUES ('$userName', '$name', 0, '$hashed_password')";
     $data = mysqli_query($link,$query);
     if($data)

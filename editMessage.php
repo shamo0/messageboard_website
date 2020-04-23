@@ -56,8 +56,11 @@ if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true)  {
 if (isset($_GET['id']) && isset($_POST['mess'])) { 
     $id = $_GET['id']; 
     $newMess = $_POST['mess'];
-    $query =  "UPDATE messages SET messageVal='$newMess' WHERE messageId='$id'";
-    $result = mysqli_query($link,$query); 
+    $sql = $link->prepare("UPDATE messages SET messageVal=? WHERE messageId=?");
+    $sql -> bind_param("ss",$newMess, $id);
+    $sql->execute();
+    // $query =  "UPDATE messages SET messageVal='$newMess' WHERE messageId='$id'";
+    // $result = mysqli_query($link,$query); 
     //Output the appropriate message
     echo "<h2>Message Updated!</h2><br>";   
     echo "<br> <br> <br> ";  

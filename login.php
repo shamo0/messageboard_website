@@ -9,16 +9,6 @@ $link = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) o
 
 // To protect MySQL injection (more detail about MySQL injection)
 
-
-$sql=$link->prepare("SELECT * FROM users WHERE username=? and passwd=?");
-$sql->bind_param("ss", $username, $hashed_password);
-
-$username= htmlspecialchars($_POST['username']); 
-$password= htmlspecialchars($_POST['password']); 
-$hashed_password = sha1($password);
-
-$sql->execute();
-
 // $result=mysqli_query($link,$sql->execute());
 // echo $result;
 //PREPARE chklgn FROM 'SELECT accesslevel FROM access WHERE logon=? AND password=?';
@@ -28,10 +18,20 @@ $sql->execute();
 // $sql = "PREPARE chklgn FROM \"SELECT * FROM users WHERE username='?' and passwd='?'\"; SET @l ='$username'; SET @p='$hashed_password';EXECUTE chklgn USING @l,@p;";
 // $result=mysqli_query($link,$sql);
 // Mysql_num_row is counting table row
-$count=mysqli_num_rows($result);
+
+// $count=mysqli_num_rows($result);
+$username= htmlspecialchars($_POST['username']); 
+$password= htmlspecialchars($_POST['password']); 
+$hashed_password = sha1($password);
+
+$sql=$link->prepare("SELECT * FROM users WHERE username=? and passwd=?");
+$sql->bind_param("ss", $username, $hashed_password);
+$sql->execute();
+$result = $sql->get_result();
 
 // If result matched $username and $password, table row must be 1 row
-if($count==1){
+if ($result->num_rows > 0){
+// if($count==1){
     session_start();
     $_SESSION['loggedin'] = true;
     $_SESSION['username'] = $username;

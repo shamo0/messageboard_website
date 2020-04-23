@@ -48,7 +48,9 @@ if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true) {
 <?php
 if (isset($_POST['mess'])) { 
   if ($_SESSION['token']!=$_POST['token']) {
-    echo "INVALID TOKEN ERROR"; 
+    echo "INVALID TOKEN ERROR\n"; 
+    echo "FROM SESSION: " . $_SESSION['token'] . "\n";
+    echo "FROM POST: " . $_POST['token'];
   } 
   else { 
     $message = $_POST['mess']; 
@@ -60,10 +62,14 @@ if (isset($_POST['mess'])) {
     if (mysqli_num_rows($result)){
       $row = mysqli_fetch_array($result);
       $id = $row['id'];
-      $sql = "INSERT INTO messages (messageVal, timestampVal, id) VALUES ('$message', '$time','$id')"; 
+      // $sql = "INSERT INTO messages (messageVal, timestampVal, id) VALUES ('$message', '$time','$id')"; 
+      $sql=$link->prepare("INSERT INTO messages (messageVal, timestampVal, id) VALUES (?,?,?)");
+      $sql ->bind_param("sss",$message, $time, $id);
+      
     }
-    $link->query($sql); 
-    mysqli_free_result($result);
+    $sql ->execute();
+    // $link->query($sql); 
+    // mysqli_free_result($result);
   
     echo "<div class= 'welcome2'><h1>Message Receieved!</h1></div>";     
 
