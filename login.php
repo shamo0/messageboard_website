@@ -9,16 +9,6 @@ $link = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) o
 
 // To protect MySQL injection (more detail about MySQL injection)
 
-// $result=mysqli_query($link,$sql->execute());
-// echo $result;
-//PREPARE chklgn FROM 'SELECT accesslevel FROM access WHERE logon=? AND password=?';
-//SET @l ="admin";
-//SET @p = "workharder";
-//EXECUTE chklgn USING @l, @p;
-// $sql = "PREPARE chklgn FROM \"SELECT * FROM users WHERE username='?' and passwd='?'\"; SET @l ='$username'; SET @p='$hashed_password';EXECUTE chklgn USING @l,@p;";
-// $result=mysqli_query($link,$sql);
-// Mysql_num_row is counting table row
-
 // $count=mysqli_num_rows($result);
 $username= htmlspecialchars($_POST['username']); 
 $password= htmlspecialchars($_POST['password']); 

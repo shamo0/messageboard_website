@@ -47,13 +47,15 @@ if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true)  {
       <input type="text" required name="mess" placeholder="Hello There!" maxlength="60"> 
       </div>
     </label>
+  <input type="hidden" name="token" value="<?php echo $_SESSION['token']?>"/> 
   <input type="hidden" name="timeadded" value="<?php date_default_timezone_set('UTC'); echo date('l jS \of F Y h:i:s A');?>">
   <input class= "button" type="submit" value="Send message!"> 
 </form> 
 
 <?php
-
-if (isset($_GET['id']) && isset($_POST['mess'])) { 
+//Check if the if the id is set in the get request and the message is set in the post request
+//Also for CSRF check if the session token is the same as the token from the form.
+if ((isset($_GET['id']) && isset($_POST['mess'])) && ($_SESSION['token']==$_POST['token'])) { 
     $id = $_GET['id']; 
     $newMess = $_POST['mess'];
     $sql = $link->prepare("UPDATE messages SET messageVal=? WHERE messageId=?");
