@@ -57,13 +57,13 @@ else {
     <input type="text" required name="mess" placeholder="Hello There!" maxlength="60"> 
      </div>
     </label>
- 
+  <input type="hidden" name="token" value="<?php=$_SESSION['token']?>"/> 
   <input type="hidden" name="timeadded" value="<?php date_default_timezone_set('UTC'); echo date('l jS \of F Y h:i:s A');?>">
   <input class= "button" type="submit" value="Send message!"> 
 </form> 
 </div>
 
-<?php
+<?php /*
      if (isset($_POST['mess'])) { 
       $message = $_POST['mess']; 
       $time = $_POST['timeadded'];
@@ -85,10 +85,10 @@ else {
       echo "<p>" . $message . "</p>";
       echo "<span class='time-right'>" . $time . "</span>";
       echo "</div>";
-    }
-    
+    }*/ 
+
     //SQL query to get the values from the database
-    $sql = "SELECT messages.id, messageId, messageVal, timestampVal, username FROM messages, users WHERE messages.id=users.id"; 
+    $sql = "SELECT messages.id, messageId, messageVal, timestampVal, username FROM messages, users WHERE messages.id=users.id ORDER BY ASC"; 
     if($result = mysqli_query($link, $sql)){
 		    if(mysqli_num_rows($result) > 0){
           while($row = mysqli_fetch_array($result)){

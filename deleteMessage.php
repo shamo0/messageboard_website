@@ -10,7 +10,7 @@ if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_
 
 //Check if already in session
 session_start(); 
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] != true) { 
+if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true)  { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
   sleep(.5);
   header("Location: http://localhost:8080/part2/index.html");

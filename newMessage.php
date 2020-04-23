@@ -10,11 +10,12 @@ if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_
 
 
 session_start(); 
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] != true) { 
+if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true) { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
   sleep(.5);
   header("Location: http://localhost:8080/part2/index.html");
 }
+
 ?>
 <head>
   <meta charset="utf-8">
@@ -46,6 +47,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] != true) {
 
 <?php
 if (isset($_POST['mess'])) { 
+  if ($_SESSION['token']!=$_POST['token']) {
+    echo "INVALID TOKEN ERROR"; 
+  } 
+  else { 
     $message = $_POST['mess']; 
     $time = $_POST['timeadded'];
     $user = $_SESSION['username'];
@@ -78,7 +83,8 @@ if (isset($_POST['mess'])) {
             echo "<span class='time-right'>" . $time. "</span>";
     echo "<div class = 'link2'><a href='messageboard.php'>Link back to message board </a></div> " ; 
 
-  } 
+  }
+}  
   mysqli_close($link);
   ?>
 </html>

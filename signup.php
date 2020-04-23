@@ -2,14 +2,14 @@
 include('dbConnectionInfo.php');
 $link = mysqli_connect($db_hostname, $db_username, $db_password, $db_database);
 //Get username,name,password from the form post request
-$userName = $_POST['username'];
-$name = $_POST['name']; 
-$password =  $_POST['password'];
+$userName = htmlspecialchars($_POST['username']);
+$name =  htmlspecialchars($_POST['name']); 
+$password =  htmlspecialchars($_POST['password']);
 $hashed_password = sha1($password);
 //SQL query for getting username
 // $userGet = $dbh->prepare("SELECT username from users where  username = ?");
-// mysqli_query($link, "PREPARE chklgn FROM 'SELECT accesslevel FROM access WHERE logon=? AND password=?'");
 // $userGet->execute($userName);
+// mysqli_query($link, "PREPARE chklgn FROM 'SELECT username FROM users WHERE username=?");
 // EXECUTE chklgn USING @l, @p;
 // $query = mysqli_query($link, $userGet);
 
