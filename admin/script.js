@@ -2,9 +2,9 @@
 function validateUser() {
   var username = document.forms["signup"]["username"].value;
   username = encodeURIComponent(username);//Escaping chars
-  if (username.length == 0) {   //ensure something is put in
+  if ((username.length == 0) || !(/[^a-z0-9]/.test(username)) || (username.length > 15)) {   //ensure something is put in
     // document.write("test")
-    document.getElementById("errorcheck1").innerHTML = "Enter a username!";
+    document.getElementById("errorcheck1").innerHTML = "Enter a valid username!";
     return false;
   }
   else {
@@ -15,9 +15,9 @@ function validateUser() {
 
   //Validates name whn signing up
   function validateName() {
-  var username = document.forms["signup"]["name"].value;
-  username = encodeURIComponent(username); //Escaping special chars
-  if (username.length == 0) {   //ensure something is put in
+  var name = document.forms["signup"]["name"].value;
+  name = encodeURIComponent(name); //Escaping special chars
+  if ((name.length == 0) || !(/^[a-zA-Z\s]*$/.test(name)) || (name.length > 15)){   //ensure something is put in
     document.getElementById("errorcheck3").innerHTML = "Enter a Name!";
     return false;
   }
@@ -30,7 +30,7 @@ function validateUser() {
   function validatePassword() {
   var password = document.forms["signup"]["password"].value;
   password = encodeURIComponent(password); //escaping the characters
-  if ((password.length > 5) && (/\d/.test(password) && (password.length < 20))) {   //ensures length is at least six and has one digit
+  if ((password.length > 5) || (/\d/.test(password) || (password.length < 25))) {   //ensures length is at least six and has one digit
     document.getElementById("errorcheck2").innerHTML = "";
     return true;
   }
@@ -58,6 +58,7 @@ function validateUser() {
     return false;
   }
   }
+
   //Logout function
   function logout() {
       if (window.XMLHttpRequest)

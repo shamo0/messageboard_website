@@ -45,15 +45,15 @@
       <form name ="signup" method="post" action="signup.php" onsubmit="return validateSignup()">
         <p id='errorcheck1'></p>
       <div class= "inputText">
-        <input onchange="validateUser()" name="username" type="text" placeholder="Enter Username">       
+        <input onblur="validateUser()" name="username" type="text" placeholder="Enter Username">       
       </div>
       <div class= "inputText">
         <p id="errorcheck3"></p>
-        <input onchange="validateName()" name="name" type="text" placeholder="Enter Name">
+        <input onblur="validateName()" name="name" type="text" placeholder="Enter Name">
       </div>
       <div class= "inputText">
         <p id='errorcheck2'></p>
-        <input onchange="validatePassword()" name="password" type="password" placeholder="Choose a password">
+        <input onblur="validatePassword()" name="password" type="password" placeholder="Choose a password">
       </div>
       <input class= "button" type="submit" value="Sign Up" name="signUp">
       <input class= "button" type= "reset" value="Clear Form">
