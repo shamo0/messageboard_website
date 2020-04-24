@@ -18,7 +18,7 @@ if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true)  {
 }
 ?>
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" http-equiv="Content-Security-Policy" content="default-src 'self'; child-src 'none';">
   <title>messageBoard</title>
   <meta name="index" content="The HTML5 Herald">
   <meta name="editMessage" content="SitePoint">
@@ -59,7 +59,7 @@ if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true)  {
 //Also for CSRF check if the session token is the same as the token from the form.
 if ((isset($_GET['id']) && isset($_POST['mess'])) && ($_SESSION['token']==$_POST['token'])) {
     $id = $_GET['id'];
-    $newMess = $_POST['mess'];
+    $newMess = htmlspecialchars($_POST['mess']);
     if (strlen($newMess) > 60) {
       //check if the message is too long.
       echo "<script>alert('You have entered a message too big. Try again!'); </script>";

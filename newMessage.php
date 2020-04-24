@@ -20,7 +20,7 @@ if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true) {
 
 ?>
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" http-equiv="Content-Security-Policy" content="default-src 'self'; child-src 'none';">
   <title>messageBoard</title>
   <meta name="index" content="The HTML5 Herald">
   <meta name="Geno" content="SitePoint">
@@ -51,8 +51,8 @@ if (isset($_POST['mess'])) {
   } 
   else { 
     //if both check ^^ out then insert the new message into the database.
-    $message = $_POST['mess']; 
-    $time = $_POST['timeadded'];
+    $message = htmlspecialchars($_POST['mess']); 
+    $time= $_POST['timeadded'];
     $user = $_SESSION['username'];
     $_POST = array();
     $query =  "SELECT id FROM users WHERE username = '$user'";
