@@ -26,7 +26,7 @@ CREATE Table messages(
   FOREIGN KEY (id) REFERENCES users(id) 
 );
 
-INSERT INTO users(id,username,names,roles,passwd) VALUE (1,'admin','admin',1,'secret');
+INSERT INTO users(id,username,names,roles,passwd) VALUE (1,'admin','admin',1,'e5e9fa1ba31ecd1ae84f75caaa474f3a663f05f4');
 INSERT INTO users(id,username,names,roles,passwd) VALUE (2,'geno','geno',0,'password123');
 INSERT INTO users(id,username,names,roles,passwd) VALUE (3,'ryan','ryan',0,'secretword');
 INSERT INTO users(id,username,names,roles,passwd) VALUE (4,'user1','John',0,'princess');

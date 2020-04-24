@@ -1,6 +1,7 @@
 <html lang="en">
 
 <?php
+//Set up the sql connection
 $db_hostname = 'localhost';
 $db_database = 'messageboard';
 $db_username = 'root';
@@ -10,6 +11,7 @@ if (mysqli_connect_errno()) die("Unable to connect to MySQL: " . mysqli_connect_
 
 
 session_start(); 
+//Check for session. if not active session then redirect to login page.
 if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true) { 
   echo "<h1> You must login/register to see this page. Redirecting ...  "; 
   sleep(.5);
@@ -19,40 +21,36 @@ if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin']) != true) {
 ?>
 <head>
   <meta charset="utf-8">
-
   <title>messageBoard</title>
   <meta name="index" content="The HTML5 Herald">
   <meta name="Geno" content="SitePoint">
-
   <link rel="stylesheet" href="styless.css">
 
-
 </head>
-
 <body>
-
+  <!-- nav bar -->
    <div class = nav_back>
       <topnav>
-          <!-- <div class="menulist"> -->
             <ul>
               <li><a  href="messageboard.php">Chat</a></li>
               <li><a class="active" href="newMessage.php">Confirmation Page</a></li>
-              
               <li><a href="mailto: m216060@usna.edu?subject= help needed">Contact</a></li>
               <li><a onclick="logout()" >Log out</a></li>
             </ul>
-          <!-- </div>      -->
         </topnav>
     </div>
 
 <?php
+//Check if there was a new message passed in post request from form.
 if (isset($_POST['mess'])) { 
+  //check the token value from hidden field.
   if ($_SESSION['token']!=$_POST['token']) {
     echo "INVALID TOKEN ERROR\n"; 
     echo "FROM SESSION: " . $_SESSION['token'] . "\n";
     echo "FROM POST: " . $_POST['token'];
   } 
   else { 
+    //if both check ^^ out then insert the new message into the database.
     $message = $_POST['mess']; 
     $time = $_POST['timeadded'];
     $user = $_SESSION['username'];
@@ -62,17 +60,13 @@ if (isset($_POST['mess'])) {
     if (mysqli_num_rows($result)){
       $row = mysqli_fetch_array($result);
       $id = $row['id'];
-      // $sql = "INSERT INTO messages (messageVal, timestampVal, id) VALUES ('$message', '$time','$id')"; 
+      //prepare the sql query and insert the message
       $sql=$link->prepare("INSERT INTO messages (messageVal, timestampVal, id) VALUES (?,?,?)");
       $sql ->bind_param("sss",$message, $time, $id);
-      
     }
     $sql ->execute();
-    // $link->query($sql); 
-    // mysqli_free_result($result);
-  
+    //Display the appropirate message
     echo "<div class= 'welcome2'><h1>Message Receieved!</h1></div>";     
-
     echo "<div class='container12' id='id".$message."'>";
             echo "<div class= 'forms_div4'>";
             echo "<div class= 'forms_div4-img'>";
@@ -87,10 +81,18 @@ if (isset($_POST['mess'])) {
             echo $message . "<br />";
             echo "</div>";
             echo "<span class='time-right'>" . $time. "</span>";
-    echo "<div class = 'link2'><a href='messageboard.php'>Link back to message board </a></div> " ; 
+    //if admin redirect to the admin page
+    if ($_SESSION['username'] == 'admin') { 
+      echo "<div class = 'link2'><a href='http://localhost:8080/part2/admin/messageboardAdmin.php'>Link back to your message board </a></div> " ;
+    }
+    else { //if regular user go to regular messageboard.
+      echo "<div class = 'link2'><a href='messageboard.php'>Link back to message board </a></div> " ;
+    } 
 
   }
 }  
+  //closing the connection
   mysqli_close($link);
-  ?>
+?>
+</body>
 </html>

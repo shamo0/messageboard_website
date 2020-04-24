@@ -1,6 +1,6 @@
 <html lang="en">
 <?php
-//set up connection and connect
+//set up connection and connect to the database
 $db_hostname = 'localhost';
 $db_database = 'messageboard';
 $db_username = 'root';
@@ -26,7 +26,6 @@ else {
   <meta name="index" content="The HTML5 Herald">
   <meta name="Geno" content="SitePoint">
   <link rel="stylesheet" href="styless.css">
-
   <script src='script.js'></script>
 
 
@@ -36,8 +35,6 @@ else {
       <topnav>
             <ul>
               <li><a class="active" href="messageboard.php">Chat</a></li>
-              
-              <li><a href="mailto: m216060@usna.edu?subject= help needed">Contact</a></li>
               <li><a onclick="logout()" >Log out</a></li>
             </ul>
 
@@ -64,29 +61,6 @@ else {
 </div>
 
 <?php 
-    //  if (isset($_POST['mess'])) { 
-    //   $message = $_POST['mess']; 
-    //   $time = $_POST['timeadded'];
-    //   $user = $_SESSION['username'];
-    //   $_POST = array();
-    //   $query =  "SELECT id FROM users WHERE username = '$user'";
-    //   $result = mysqli_query($link,$query); 
-    //   if (mysqli_num_rows($result)){
-    //     $row = mysqli_fetch_array($result);
-    //     $id = $row['id'];
-    //     $sql = "INSERT INTO messages (messageVal, timestampVal, id) VALUES ('$message', '$time','$id')"; 
-    //   }
-    //   $link->query($sql); 
-    //   mysqli_free_result($result);
-      
-    //   echo "<h1>Message Receieved!</h1>";     
-    //   echo "<div class='container12'>";
-    //   echo "<h1>" . $user . "</h1>";
-    //   echo "<p>" . $message . "</p>";
-    //   echo "<span class='time-right'>" . $time . "</span>";
-    //   echo "</div>";
-    // }
-
     //SQL query to get the values from the database
     $sql = "SELECT messages.id, messageId, messageVal, timestampVal, username FROM messages, users WHERE messages.id=users.id ORDER BY messageId DESC"; 
     if($result = mysqli_query($link, $sql)){
