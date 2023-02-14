@@ -8,7 +8,7 @@ $link = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) o
 // To protect MySQL injection (more detail about MySQL injection)
 $username= htmlspecialchars($_POST['username']);
 $password= htmlspecialchars($_POST['password']);
-$hashed_password = sha256($password);
+$hashed_password = sha1($password);
 //Prepare query.
 $sql=$link->prepare("SELECT * FROM users WHERE username=? and passwd=?");
 $sql->bind_param("ss", $username, $hashed_password);
