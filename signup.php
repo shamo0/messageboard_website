@@ -34,7 +34,7 @@ if(!$uppercase || !$lowercase || !$number || strlen($password) < 6 || strlen($us
     echo "<script>alert('Password does not meet the requirements. Try again!'); </script>";
     echo "<script>setTimeout(\"location.href = 'http://localhost:8080/part2/index.html';\",1000);</script>";
 }
-$hashed_password = sha1($password);
+$hashed_password = sha256($password);
 //sql prepare the query and then execute.
 $sql=$link->prepare("SELECT username FROM users WHERE username=?");
 $sql ->bind_param("s", $username);
