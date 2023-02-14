@@ -8,7 +8,7 @@ $link = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) o
 // To protect MySQL injection (more detail about MySQL injection)
 $username= htmlspecialchars($_POST['username']);
 $password= htmlspecialchars($_POST['password']);
-$hashed_password = sha256($password);
+$hashed_password = sha1($password);
 //Prepare query.
 $sql=$link->prepare("SELECT * FROM users WHERE username=? and passwd=?");
 $sql->bind_param("ss", $username, $hashed_password);
@@ -23,7 +23,7 @@ if ($result->num_rows > 0){
     //check if the token doesnt exist. Then create a session token for auth.
     if (empty($_SESSION['token'])) {
         $length = 32;
-        $_SESSION['token'] = substr(base_convert(sha256(uniqid(mt_rand())), 16, 36), 0, $length);
+        $_SESSION['token'] = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $length);
     }
     //Check if the user is admin. redirect to admin only page where http auth is required.
     if ($_SESSION['username'] == 'admin') {
